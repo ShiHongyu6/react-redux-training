@@ -1,0 +1,153 @@
+.todoTask{
+    display: flex;
+    color : #6c757d;
+    border-bottom: 1px solid #6c757d;
+}
+
+.todoTask > .todoTask__status {
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    align-self: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+.todoTask__status.todoTask__status--new {
+    background-color: #2ae0c8;
+}
+
+.todoTask__status.todoTask__status--done {
+    background-color: #e3c887;
+}
+
+.todoTask__status.todoTask__status--expired {
+    background-attachment: #6c757d;
+}
+
+.todoTask > .todoTask__main {
+    padding : 16px;
+    flex-grow: 1;
+}
+
+.todoTask__title {
+    height: 25px;
+    line-height: 25px;
+    color: #665577;
+    font-size: 1.2em;
+}
+
+.todoTask__startTime {
+    height: 25px;
+    line-height: 25px;
+    padding-left: 2em;
+    font-size: 0.8em;
+    display: flex;
+    align-items: center;
+}
+
+.todoTask__content {
+    padding-left: 1em;
+}
+
+.startTime--today {
+    display: flex;
+    margin-left: 10px;
+    height: 25px;
+    color : #2ae0c8;
+}
+
+.startTime--today::after {
+    content: 'Today';
+    display: block;
+}
+
+.icon__today {
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    transform: scale(var(--ggs,1));
+    width: 18px;
+    height: 18px;
+    border: 2px solid;
+    border-top: 4px solid;
+    border-radius: 3px
+}
+.icon__today::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    background: currentColor;
+    height: 4px;
+    width: 4px;
+    border-radius: 2px;
+    right: 2px;
+    bottom: 2px
+}
+
+.todoTask__action {
+    display: flex;
+    width: 100px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.todoTask__action__btn {
+    display: flex;
+    width: 100%;
+    height: 35%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.todoTask__action__btn--done {
+    background-color: #fad8be;
+}
+
+.todoTask__action__btn--done::after {
+    content: '标记为已完成';
+}
+
+.todoTask__action__btn--done:hover {
+    background-color: #e3c887;
+}
+
+
+.todoTask__action__btn--delete {
+    background-color: #fbb8ac;
+}
+
+.todoTask__action__btn--delete::after {
+    content: '删除';
+}
+
+.todoTask__action__btn--delete:hover{
+    background-color: #fe6673;
+}
+
+.todoTask__action__btn--new {
+    background-color: #a2e1d4;
+}
+
+.todoTask__action__btn--new:hover {
+    background-color: #2ae0c8;
+}
+
+.todoTask__action__btn--new::after {
+    content: '标记为未完成'
+}
+
+.todoTask__action__btn {
+    cursor: pointer;
+}
+
+.todoTask__main:hover {
+    cursor: pointer;
+}

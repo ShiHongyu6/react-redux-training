@@ -30,6 +30,7 @@ export class App extends React.Component<IAppProps, IAppState> {
     return (
       <>
         <div className="text-container">Test React</div>
+        <div className="text-container">Test React22ddf asdf22</div>
         <input
           type="text"
           value={this.state.value}
