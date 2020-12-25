@@ -1,0 +1,93 @@
+.taskInputForm {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #6c757d;
+}
+
+.taskInputForm__taskTitle, .taskInputForm__taskContent, .taskInputForm__taskTime {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.taskInputForm__taskTitle, .taskTitleInput {
+    font-size: 25px;
+    height: 36px;
+    line-height: 30px;
+}
+
+.taskInputForm__taskContent {
+    font-size: 23px;
+    line-height: 25px;
+}
+
+
+.taskInputLabel {
+    display: flex;
+    width: 100px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.taskTitleInput, .taskContentInput {
+    display: flex;
+    flex-grow: 1;
+}
+
+.taskContentInput {
+    height: 50px;
+    font-size: 23px;
+    line-height: 25px;
+}
+
+.taskInputFormBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    border-style: none;
+    width: 100px;
+    height: 35px;
+    border-radius: 8px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    align-self: flex-end;
+}
+
+
+.taskInputFormBtn--new, .taskInputFormBtn--update, .taskInputFormBtn--cancel {
+    background-color: #1976d2;
+}
+
+.taskInputFormBtn--new:hover , .taskInputFormBtn--update:hover, .taskInputFormBtn--cancel:hover{
+    background-color: #3d90e4;
+}
+
+.taskInputFormBtn--new:active, .taskInputFormBtn--update:active, .taskInputFormBtn--cancel:active {
+    background-color: #1976d2;
+}
+
+[disabled].taskInputFormBtn--new, [disabled].taskInputFormBtn--update{
+    background-color: #1976d2;
+    opacity: 0.5;
+}
+
+.taskInputFormBtn--new::after {
+    content: '添加';
+    color: #fff;
+    font-size: 20px;
+}
+
+
+.taskInputFormBtn--update::after {
+    content: '更新';
+    color: #fff;
+    font-size: 20px;
+}
+
+
+.taskInputFormBtn--cancel::after {
+    content: '取消';
+    color: #fff;
+    font-size: 20px;
+}

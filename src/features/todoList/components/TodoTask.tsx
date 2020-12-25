@@ -1,16 +1,18 @@
 import * as React from "react";
 import { connect } from 'react-redux';
 import './todoTask.scss';
-import { todoListActions } from '../actions/todoListAction';
+import { todoListActions } from '../actions/todoListActions';
 import { TaskStatus, TodoTaskType } from '../index'
 
 export type ITodoTaskProps = {
     //父组件传递
     todoTask : TodoTaskType;
     isEditing : boolean;
+    switchEditingTask : Function
 
     //connect注入的方法
     switchTodoTaskStatus : Function;
+    deleteTodoTask : Function
 }
 
 
@@ -20,8 +22,8 @@ class TodoTask extends React.Component<ITodoTaskProps> {
     }
 
     render() {
-        const { id, title, content, taskStartTime, taskStatus } = this.props.todoTask;
-        const { isEditing, switchTodoTaskStatus } = this.props;
+        const { id, title, content, taskStartTime, taskEndTime, taskStatus } = this.props.todoTask;
+        const { switchEditingTask, switchTodoTaskStatus, deleteTodoTask } = this.props;
 
         /**
          * 这个按钮用来切换task的状态  如果当前状态为new，则切换为done；如果当前状态为down，则切换为new
@@ -32,11 +34,11 @@ class TodoTask extends React.Component<ITodoTaskProps> {
             <div className="todoTask">
                 <div className={`todoTask__status  todoTask__status--${taskStatus}`}/>
 
-                <div className='todoTask__main'>
+                <div className='todoTask__main' onClick={() => switchEditingTask(id)}>
                     <div className="todoTask__title">{title}</div>
                     <div className="todoTask__startTime">
                         <div className='startTime__content'>
-                            {taskStartTime && (taskStartTime.toLocaleTimeString() + " " + taskStartTime.toLocaleDateString())}
+                            {taskEndTime && (taskEndTime.toLocaleTimeString() + " " + taskEndTime.toLocaleDateString())}
                         </div>
                         
                         {   //如果这个任务的日期和“今天”日期相同  则渲染一个图标用来表示是今天的任务
@@ -45,6 +47,11 @@ class TodoTask extends React.Component<ITodoTaskProps> {
                                     <i className='icon__today' />
                                 </div>
                         )}
+                    </div>
+                    <div className="todoTask__endTime">
+                        <div className='endTime__content'>
+                            {taskStartTime && (taskStartTime.toLocaleTimeString() + " " + taskStartTime.toLocaleDateString())}
+                        </div>
                     </div>
                     <div className="todoTask__content">{content}</div>
                 </div>
@@ -55,7 +62,7 @@ class TodoTask extends React.Component<ITodoTaskProps> {
                             <div className={switchBtnClassName} onClick={switchTodoTaskStatus(id)}></div>
                         )
                     }
-                    <div className="todoTask__action__btn todoTask__action__btn--delete"></div>
+                    <div className="todoTask__action__btn todoTask__action__btn--delete" onClick={deleteTodoTask(id)}></div>
                 </div>
             </div>
         );
@@ -64,6 +71,7 @@ class TodoTask extends React.Component<ITodoTaskProps> {
 
 export default connect(null, (dispatch) => {
     return {
-        switchTodoTaskStatus : id => () => dispatch(todoListActions.switchTodoTaskStatus(id))
+        switchTodoTaskStatus : id => () => dispatch(todoListActions.switchTodoTaskStatus(id)),
+        deleteTodoTask : id => () => dispatch(todoListActions.deleteTodoTask(id))
     }
 })(TodoTask);

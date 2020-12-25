@@ -1,8 +1,6 @@
-import { nanoid } from '@reduxjs/toolkit'
-import { TaskStatus } from '../index'
-
 export enum TodoListActionType {
     ADD_TODO_TASK = 'TodoList/addTodoTask',
+    DEL_TODO_TASK = 'TodoList/delTodoTask',
     SWITCH_TODO_TASK_STATUS = 'TodoList/switchTodoTaskStatus'
 }
 
@@ -11,14 +9,13 @@ export enum TodoListActionType {
  * Action工厂
  */
 export const todoListActions = {
-    addTodoTask : (content, title, taskStartTime) => {
+    addTodoTask : (title, content, taskStartTime, taskEndTime) => {
         const payload = {
-            id: nanoid(),
-            content,
             title,
+            content,
             taskStartTime,
-            creationTime: new Date(), 
-            taskStatus: TaskStatus.NEW
+            taskEndTime,
+            nowTime : new Date()
         }
         return {type:TodoListActionType.ADD_TODO_TASK, payload};
     }, 
@@ -27,5 +24,11 @@ export const todoListActions = {
             id
         }
         return {type:TodoListActionType.SWITCH_TODO_TASK_STATUS, payload};
+    },
+    deleteTodoTask : id => {
+        const payload ={
+            id
+        }
+        return {type:TodoListActionType.DEL_TODO_TASK, payload};
     }
 };

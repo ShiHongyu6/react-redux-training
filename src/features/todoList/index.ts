@@ -7,12 +7,14 @@ export enum TaskStatus {
 
 //store.taskList每一项的类型
 export type TodoTaskType = {
-    id : string, 
-    title : string,
-    content : string, 
-    creationTime : Date, 
-    taskStartTime : Date, 
+    id : string
+    title : string
+    content : string
+    lastUpdateTime : Date 
+    taskStartTime : Date
+    taskEndTime : Date
     taskStatus : TaskStatus
+    isDeleted : boolean    //是否已经被删除
 };
 
 //store.taskList的类型
@@ -26,24 +28,30 @@ export const initialState:TodoListState = [
         id : '1',
         title: 'This is title1', 
         content: 'This is task1 hello world how are you',
-        creationTime: sub((new Date()), {minutes:10}), 
-        taskStartTime: new Date(), 
-        taskStatus: TaskStatus.NEW
+        lastUpdateTime: sub((new Date()), {days:10}), 
+        taskStartTime: sub((new Date()), {days: 1}),
+        taskEndTime : sub((new Date()), {days: 2}),
+        taskStatus: TaskStatus.NEW, 
+        isDeleted : false
     },
     {
         id : '2',
         title: 'This is title2', 
         content: 'This is task2',
-        creationTime: sub((new Date()), {minutes:15}),
-        taskStartTime: new Date(), 
-        taskStatus: TaskStatus.NEW
+        lastUpdateTime: sub((new Date()), {days:0}),
+        taskStartTime: sub((new Date()), {days: 2}),
+        taskEndTime : sub((new Date()), {days: 3}),
+        taskStatus: TaskStatus.NEW,
+        isDeleted : false
     },
     {
         id : '3',
         title: 'This is title3', 
         content: 'This is task3',
-        creationTime: sub((new Date()), {minutes:5}), 
-        taskStartTime: new Date(), 
-        taskStatus: TaskStatus.NEW
+        lastUpdateTime: sub((new Date()), {hours:5}), 
+        taskStartTime: sub((new Date()), {hours: 3}),
+        taskEndTime : sub((new Date()), {hours: 4}),
+        taskStatus: TaskStatus.NEW, 
+        isDeleted : false
     }
 ];

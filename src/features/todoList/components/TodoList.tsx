@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { TaskStatus, TodoTaskType } from '../index'
 import TodoTask from './TodoTask'
 import TaskInputForm from './TaskInputForm';
+import { HowToUseTaskInputForm } from './TaskInputForm'
 
 
 /**
@@ -37,6 +38,7 @@ type ITodoListProps = {
 type ITodoListState = {
     filter : TaskFilter
     taskOrder : TaskOrder
+    editingTaskId : string //正在编辑的task的id
 }
 
 class TodoList extends React.Component<ITodoListProps, ITodoListState> {
@@ -44,7 +46,8 @@ class TodoList extends React.Component<ITodoListProps, ITodoListState> {
         super(props);
         this.state = {
             filter : TaskFilter.ALL,
-            taskOrder : TaskOrder.NONE
+            taskOrder : TaskOrder.NONE,
+            editingTaskId : null
         };
 
         this.filterChanged = this.filterChanged.bind(this);
@@ -63,18 +66,35 @@ class TodoList extends React.Component<ITodoListProps, ITodoListState> {
         })
     }
 
+    //切换当前正在编辑的task
+        //如果调用时不传递参数  则会关闭正在编辑的task
+    switchEditingTask(taskId) {
+        this.setState({editingTaskId : taskId});
+    }
+
     render() {
         let { todoList } = this.props;
         /**
-         * 根据当前过滤器进行过滤
+         * 根据当前过滤器进行过滤 同时将已经删除的task（task.isDeleted为true）的task
          */
         todoList = selectTask(todoList, this.state.filter);
+        /**
+         * 排序
+         */
         orderTask(todoList, this.state.taskOrder);
-        const todoListRendered = todoList.map(todoTask => (<TodoTask todoTask={todoTask} isEditing={false} key={todoTask.id}/>));
+        
+        const todoListRendered = todoList.map(
+            todoTask => {
+                if(todoTask.id === this.state.editingTaskId){
+                    return <TaskInputForm key={todoTask.id} howToUse={HowToUseTaskInputForm.UPDATE_CREATED_TASK} todoTask={todoTask} switchEditingTask={id => this.switchEditingTask(id)}/>
+                }
+                return <TodoTask todoTask={todoTask} key={todoTask.id} switchEditingTask={id => this.switchEditingTask(id)}/>;
+            }
+        );
         return (
             <div className="todoList">
 
-                <TaskInputForm />
+                <TaskInputForm howToUse={ HowToUseTaskInputForm.CREATE_NEW_TASK /* 这里的表单是用于创建新的task */}/>
 
                 <div className="todoList__header">
                     <div className="task__filter">
@@ -95,8 +115,8 @@ class TodoList extends React.Component<ITodoListProps, ITodoListState> {
                             <option value={TaskOrder.NONE}>
                                 默认
                             </option>
-                            <option value={TaskOrder.CREATION_TIME_ASC}>按创建时间升序</option>
-                            <option value={TaskOrder.CREATION_TIME_DES}>按创建时间降序</option>
+                            <option value={TaskOrder.CREATION_TIME_ASC}>按最近一次更新时间升序</option>
+                            <option value={TaskOrder.CREATION_TIME_DES}>按最近一次更新时间降序</option>
                             <option value={TaskOrder.START_TIME_ASC}>按开始时间升序</option>
                             <option value={TaskOrder.START_TIME_DES}>按开始时间降序</option>
                         </select>
@@ -118,10 +138,10 @@ export default connect((state) => {return {todoList:state.todoList};})(TodoList)
 
 function selectTask(todoList:TodoTaskType[], taskFilter:TaskFilter){
     switch(taskFilter) {
-        case TaskFilter.NEW : return todoList.filter(task => task.taskStatus === TaskStatus.NEW);
-        case TaskFilter.DONE: return todoList.filter(task => task.taskStatus === TaskStatus.DONE);
-        case TaskFilter.EXPIRED: return todoList.filter(task => task.taskStatus === TaskStatus.EXPIRED);
-        default : return todoList;
+        case TaskFilter.NEW : return todoList.filter(task => !task.isDeleted && task.taskStatus === TaskStatus.NEW);
+        case TaskFilter.DONE: return todoList.filter(task => !task.isDeleted && task.taskStatus === TaskStatus.DONE);
+        case TaskFilter.EXPIRED: return todoList.filter(task => !task.isDeleted && task.taskStatus === TaskStatus.EXPIRED);
+        default : return todoList.filter(task => !task.isDeleted);
     }
 }
 
@@ -133,10 +153,10 @@ function orderTask(todoList:TodoTaskType[], taskOrder:TaskOrder) {
 
     switch(taskOrder) {
         case TaskOrder.CREATION_TIME_ASC :
-            return todoList.sort((t1, t2) => (t1.creationTime.getTime() - t2.creationTime.getTime()));
+            return todoList.sort((t1, t2) => (t1.lastUpdateTime.getTime() - t2.lastUpdateTime.getTime()));
         
         case TaskOrder.CREATION_TIME_DES :
-            return todoList.sort((t1, t2) => (t2.creationTime.getTime() - t1.creationTime.getTime()));
+            return todoList.sort((t1, t2) => (t2.lastUpdateTime.getTime() - t1.lastUpdateTime.getTime()));
         
         case TaskOrder.START_TIME_ASC :
             return todoList.sort((t1, t2) => (t1.taskStartTime.getTime() - t2.taskStartTime.getTime()));
