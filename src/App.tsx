@@ -1,6 +1,5 @@
 import * as React from "react";
 import AppContainer from './features/appContainer/AppContainer'
-import TodoList  from "./features/todoList/TodoList";
 
 export type IAppProps = {
 
@@ -15,7 +14,7 @@ export class App extends React.Component<IAppProps, IAppState> {
 
   render() {
     return (
-        <AppContainer childComponent={<TodoList />}/>
+        <AppContainer />
     );
   }
 }

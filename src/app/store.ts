@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import configureStore from "./configureStore";
-import todoListSlice from '../features/todoList/todoListSlice'
+import { todoListReducer } from '../features/todoList/reducers/todoListReducer'
 const rootReducer = combineReducers({
-    todoList : todoListSlice.reducer,
+    todoList : todoListReducer,
 });
 
 

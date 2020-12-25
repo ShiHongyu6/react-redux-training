@@ -1,9 +1,9 @@
 import * as React from "react";
-import './appContainerStyleSheet/appContainer.scss'
-import TodoList from '../todoList/TodoList'
+import './appContainer.scss'
+import TodoList from '../todoList/components/TodoList'
 
 export type IAppContainerProps = {
-    childComponent : typeof TodoList;
+    
 }
 
 
@@ -13,7 +13,6 @@ export default class AppContainer extends React.Component<IAppContainerProps> {
     }
 
     render() {
-        const { childComponent } = this.props;
         return (
             <div className='appContainer'>
                 <div className='appContainer__header'>
@@ -21,7 +20,7 @@ export default class AppContainer extends React.Component<IAppContainerProps> {
                     <span className='header__content'>Are You OK ? Let's to do it!</span>
                 </div>
                 <div className='appContainer__body'>
-                    {childComponent}
+                    <TodoList />
                 </div>
             </div>
         );

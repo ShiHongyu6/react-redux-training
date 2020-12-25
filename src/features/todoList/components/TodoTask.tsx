@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect } from 'react-redux';
-import './todoListStyleSheet/todoTask.scss';
-import todoListSlice from './todoListSlice';
-import { TaskStatus, TodoTaskType } from './todoTaskSlice'
+import './todoTask.scss';
+import { todoListActions } from '../actions/todoListAction';
+import { TaskStatus, TodoTaskType } from '../index'
 
 export type ITodoTaskProps = {
     //父组件传递
@@ -64,6 +64,6 @@ class TodoTask extends React.Component<ITodoTaskProps> {
 
 export default connect(null, (dispatch) => {
     return {
-        switchTodoTaskStatus : id => () => dispatch(todoListSlice.actions.switchTodoTaskStatus(id))
+        switchTodoTaskStatus : id => () => dispatch(todoListActions.switchTodoTaskStatus(id))
     }
 })(TodoTask);

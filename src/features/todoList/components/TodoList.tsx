@@ -1,8 +1,9 @@
-import './todoListStyleSheet/todoList.scss'
+import './todoList.scss'
 import * as React from 'react';
 import { connect } from 'react-redux'
-import { TaskStatus, TodoTaskType } from './todoTaskSlice'
+import { TaskStatus, TodoTaskType } from '../index'
 import TodoTask from './TodoTask'
+import TaskInputForm from './TaskInputForm';
 
 
 /**
@@ -72,6 +73,9 @@ class TodoList extends React.Component<ITodoListProps, ITodoListState> {
         const todoListRendered = todoList.map(todoTask => (<TodoTask todoTask={todoTask} isEditing={false} key={todoTask.id}/>));
         return (
             <div className="todoList">
+
+                <TaskInputForm />
+
                 <div className="todoList__header">
                     <div className="task__filter">
                         <label htmlFor='task__filter__select'>filter</label>
@@ -98,12 +102,6 @@ class TodoList extends React.Component<ITodoListProps, ITodoListState> {
                         </select>
                     </div>
                 </div>
-
-            
-
-                
-
-
 
                 <div className="todoList__body">
                     {
