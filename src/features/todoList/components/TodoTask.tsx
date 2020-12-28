@@ -38,7 +38,7 @@ class TodoTask extends React.Component<ITodoTaskProps> {
                     <div className="todoTask__title">{title}</div>
                     <div className="todoTask__startTime">
                         <div className='startTime__content'>
-                            {taskEndTime && (taskEndTime.toLocaleTimeString() + " " + taskEndTime.toLocaleDateString())}
+                            {taskStartTime && (taskStartTime.toLocaleTimeString() + " " + taskStartTime.toLocaleDateString())}
                         </div>
                         
                         {   //如果这个任务的日期和“今天”日期相同  则渲染一个图标用来表示是今天的任务
@@ -50,7 +50,7 @@ class TodoTask extends React.Component<ITodoTaskProps> {
                     </div>
                     <div className="todoTask__endTime">
                         <div className='endTime__content'>
-                            {taskStartTime && (taskStartTime.toLocaleTimeString() + " " + taskStartTime.toLocaleDateString())}
+                            {taskEndTime && (taskEndTime.toLocaleTimeString() + " " + taskEndTime.toLocaleDateString())}
                         </div>
                     </div>
                     <div className="todoTask__content">{content}</div>

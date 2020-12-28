@@ -40,6 +40,27 @@ const todoListActionHandlers = {
         cloneTask.isDeleted = true;
         cloneState[index] = cloneTask;
         return cloneState;
+    }, 
+    [TodoListActionType.UPDATE_TODO_TASK] : (preState, action) => {
+        const cloneState = [...preState];
+        const {id, title, content, taskStartTime, taskEndTime, nowTime} = action.payload;
+        const updatedTask = {
+            id,
+            title, 
+            content, 
+            taskStartTime,
+            taskEndTime,
+            //如果当前时间超过了结束之间  则表示task已经过期
+            taskStatus: (nowTime > taskEndTime) ? TaskStatus.EXPIRED : TaskStatus.NEW,
+            lastUpdateTime : nowTime, 
+            isDeleted : false
+        }
+
+        const index = cloneState.findIndex(todoTask => todoTask.id === id);
+
+        console.log(cloneState === preState);
+        cloneState[index] = updatedTask;
+        return cloneState;
     }
 };
 /**

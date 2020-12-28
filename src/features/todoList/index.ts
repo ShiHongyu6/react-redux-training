@@ -29,8 +29,8 @@ export const initialState:TodoListState = [
         title: 'This is title1', 
         content: 'This is task1 hello world how are you',
         lastUpdateTime: sub((new Date()), {days:10}), 
-        taskStartTime: sub((new Date()), {days: 1}),
-        taskEndTime : sub((new Date()), {days: 2}),
+        taskStartTime: sub((new Date()), {days: 2}),
+        taskEndTime : sub((new Date()), {days: 1}),
         taskStatus: TaskStatus.NEW, 
         isDeleted : false
     },
@@ -39,8 +39,8 @@ export const initialState:TodoListState = [
         title: 'This is title2', 
         content: 'This is task2',
         lastUpdateTime: sub((new Date()), {days:0}),
-        taskStartTime: sub((new Date()), {days: 2}),
-        taskEndTime : sub((new Date()), {days: 3}),
+        taskStartTime: sub((new Date()), {days: 3}),
+        taskEndTime : sub((new Date()), {days: 2}),
         taskStatus: TaskStatus.NEW,
         isDeleted : false
     },
@@ -49,8 +49,8 @@ export const initialState:TodoListState = [
         title: 'This is title3', 
         content: 'This is task3',
         lastUpdateTime: sub((new Date()), {hours:5}), 
-        taskStartTime: sub((new Date()), {hours: 3}),
-        taskEndTime : sub((new Date()), {hours: 4}),
+        taskStartTime: sub((new Date()), {hours: 4}),
+        taskEndTime : sub((new Date()), {hours: 3}),
         taskStatus: TaskStatus.NEW, 
         isDeleted : false
     }

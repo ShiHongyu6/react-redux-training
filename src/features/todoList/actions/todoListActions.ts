@@ -1,6 +1,9 @@
+import { TaskStatus } from "..";
+
 export enum TodoListActionType {
     ADD_TODO_TASK = 'TodoList/addTodoTask',
     DEL_TODO_TASK = 'TodoList/delTodoTask',
+    UPDATE_TODO_TASK = 'TodoList/updateTodoTask',
     SWITCH_TODO_TASK_STATUS = 'TodoList/switchTodoTaskStatus'
 }
 
@@ -30,5 +33,16 @@ export const todoListActions = {
             id
         }
         return {type:TodoListActionType.DEL_TODO_TASK, payload};
+    }, 
+    updateTodoTask : (id, title, content, taskStartTime, taskEndTime) => {
+        const payload = {
+            id,
+            title, 
+            content, 
+            taskStartTime, 
+            taskEndTime, 
+            nowTime : new Date()
+        }
+        return {type:TodoListActionType.UPDATE_TODO_TASK, payload};
     }
 };

@@ -22,8 +22,9 @@ export type ITaskInputFormProps = {
     howToUse : HowToUseTaskInputForm,
     todoTask?: TodoTaskType //如果用于更新  则需要接收该todoTask
 
-    switchEditingTask? : Function
-    addTodoTask:Function
+    switchEditingTask? : Function //用于取消正在编辑的task task的编辑状态记录在TodoList组件的state中  需要这个函数来修改
+    updateTodoTask? : Function
+    addTodoTask?:Function
 }
 
 export type ITaskInputFormState = {
@@ -95,6 +96,17 @@ class TaskInputForm extends React.Component<ITaskInputFormProps, ITaskInputFormS
             taskEndTime_date:'',
             taskEndTime_time:''
         });
+    }
+
+
+    //更新Task
+    updateTask() {
+        const startDateTimeObject = parseDateTimeStringToDate(this.state.taskStartTime_date, this.state.taskStartTime_time);
+        const endDateTimeObject = parseDateTimeStringToDate(this.state.taskEndTime_date, this.state.taskEndTime_time);
+
+        const { updateTodoTask, switchEditingTask, todoTask } = this.props;
+        updateTodoTask(todoTask.id, this.state.title, this.state.content, startDateTimeObject, endDateTimeObject);
+        switchEditingTask();
     }
 
 
@@ -179,7 +191,7 @@ class TaskInputForm extends React.Component<ITaskInputFormProps, ITaskInputFormS
                 {   //如果这个表单用来创编辑Task 渲染更新和取消按钮
                     howToUse === HowToUseTaskInputForm.UPDATE_CREATED_TASK &&( 
                     <>
-                        <button className={`taskInputFormBtn taskInputFormBtn--update`} disabled={!canSave} />
+                        <button className={`taskInputFormBtn taskInputFormBtn--update`} disabled={!canSave} onClick={() => this.updateTask()}/>
                         <button className={`taskInputFormBtn taskInputFormBtn--cancel`} onClick={() => switchEditingTask()} />
                     </>
                 )}
@@ -190,9 +202,20 @@ class TaskInputForm extends React.Component<ITaskInputFormProps, ITaskInputFormS
 
 export default connect(null, (dispatch) => {
     return {
-        addTodoTask:(title, content, taskStartTime, taskEndTime) => dispatch(todoListActions.addTodoTask(title, content, taskStartTime, taskEndTime))
+        addTodoTask:(title, content, taskStartTime, taskEndTime) => dispatch(todoListActions.addTodoTask(title, content, taskStartTime, taskEndTime)),
+        updateTodoTask:(id, title, content, taskStartTime, taskEndTime) => dispatch(todoListActions.updateTodoTask(id, title, content, taskStartTime, taskEndTime))
     }
-})(TaskInputForm);
+},
+(stateProps, dispatchProps, ownProps) => {
+    const mergedProps = {
+        ...stateProps,
+        ...ownProps,
+        ...dispatchProps
+    }
+
+    return mergedProps;
+}
+)(TaskInputForm);
 
 
 function parseDateTimeStringToDate(dateString:string, timeString:string) {
@@ -216,7 +239,7 @@ function parseDateObjectToString(date:Date){
     if(Number(month) < 10) {
         month = '0' + month;
     }
-    let day = date.getDay() + '';
+    let day = date.getDate() + '';
     if(Number(day) < 10) {
         day = '0' + day;
     }
@@ -228,7 +251,7 @@ function parseDateObjectToString(date:Date){
     let minute = date.getMinutes() + '';
     if(Number(minute) < 10) {
         console.log(minute);
-        minute = '0' + hour;
+        minute = '0' + minute;
     }
 
     return {date:`${year}-${month}-${day}`, time:`${hour}:${minute}`}
