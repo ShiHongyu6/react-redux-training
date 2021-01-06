@@ -8,20 +8,27 @@ import { todoListActions } from './features/todoList/actions/todoListActions';
 
 const root = document.getElementById('root');
 root ? render(
-    <Provider store={store}>
-        <App />
-    </Provider>
+  <Provider store={store}>
+    <App />
+  </Provider>
 , root) : false;
 
-import  Accessor  from './HttpAccessor/Accessor';
-const accessor = new Accessor('http://localhost:8080');
+initList();
 
-accessor.access(undefined, (response) => {
-  const state = JSON.parse(response);
-  for (const task of state) {
-    task.lastUpdateTime = new Date(task.lastUpdateTime);
-    task.taskStartTime = new Date(task.taskStartTime);
-    task.taskEndTime = new Date(task.taskEndTime);
+import  Accessor  from './HttpAccessor/Accessor';
+
+async function initList() {
+  const accessor = new Accessor('http://localhost:8080');
+  try {
+    const response = await accessor.access();
+    const state = JSON.parse(response);
+    for (const task of state) {
+      task.lastUpdateTime = new Date(task.lastUpdateTime);
+      task.taskStartTime = new Date(task.taskStartTime);
+      task.taskEndTime = new Date(task.taskEndTime);
+    }
+    store.dispatch(todoListActions.initTodoList(state));
+  } catch (e) {
+    console.log(e);
   }
-  store.dispatch(todoListActions.initTodoList(state));
-});
+}
