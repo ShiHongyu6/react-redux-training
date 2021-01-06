@@ -1,20 +1,20 @@
-import * as React from "react";
-import AppContainer from './features/appContainer/AppContainer'
+import * as React from 'react';
+import './appContainer.scss';
+import TodoList from './features/todoList/components/TodoList';
 
-export type IAppProps = {
-
-};
-type IAppState = {
-  value?: string;
-}
-export class App extends React.Component<IAppProps, IAppState> {
-  constructor(props: IAppProps) {
-    super(props);
-  }
+export class App extends React.Component {
 
   render() {
     return (
-        <AppContainer />
+      <div className="appContainer">
+        <div className="appContainer__header">
+          <i className="appContainer__header_icon"></i>
+          <span className="header__content">Are You OK ? Let's to do it!</span>
+        </div>
+        <div className="appContainer__body">
+          <TodoList />
+        </div>
+      </div>
     );
   }
 }
