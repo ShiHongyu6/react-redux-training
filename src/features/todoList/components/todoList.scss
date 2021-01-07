@@ -1,16 +1,19 @@
+
+
 .todoList {
     padding: 16px;
-}
 
-.todoList__header {
-    margin-top: 10px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #6c757d;;
-    display: flex;
-}
+    &__header {
+        display: flex;
+        
+        margin-top: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #6c757d;;
 
-.todoList__header::before {
-    content: 'LIST';
+        &::before {
+            content: 'LIST';
+        }
+    }
 }
 
 .task__filter, .task__order {

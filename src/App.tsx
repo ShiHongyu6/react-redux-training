@@ -9,7 +9,7 @@ export class App extends React.Component {
       <div className="appContainer">
         <div className="appContainer__header">
           <i className="appContainer__header_icon"></i>
-          <span className="header__content">Are You OK ? Let's to do it!</span>
+          <span className="header__content">Let's do it!</span>
         </div>
         <div className="appContainer__body">
           <TodoList />

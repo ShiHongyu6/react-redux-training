@@ -1,0 +1,27 @@
+@mixin flex(
+    $flex-grow:0, 
+    $flex-shrink:0, 
+    $flex-basis:0, 
+    $flex-direction: row,
+    $justify-content:flex-start,
+    $align-items: stretch
+) {
+    display : flex;
+    flex-grow: $flex-grow;
+    flex-shrink: $flex-shrink;
+    flex-basis: $flex-basis;
+    flex-direction: $flex-direction;
+    justify-content: $justify-content;
+    align-items: $align-items;
+}
+
+@mixin lineBox(
+    $height,
+    $line-height: $height,
+    $font-size: $line-height - 6,
+    $unit:1px
+) {
+    height: $height * $unit;
+    line-height: $line-height * $unit;
+    font-size: $font-size * $unit;
+}
