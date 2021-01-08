@@ -1,34 +1,40 @@
+@use 'common';
+$appContainerWidth : 434;
+$headerIconSize : 48;
+$headerBgColor : #6f42c1;
+$headerIconFontColor : #fff;
+
 .appContainer {
-    width: 40%;
+
+    width: $appContainerWidth * 1px;
     margin: 0 auto;
-    min-width: 434px;
-}
 
-.appContainer__header {
-    display: flex;
-    flex-basis: 0;
-    align-items: center;
-    height: 50px;
-    line-height: 50px;
-    padding: 10px;
-    background-color: #6f42c1;
-    border-radius: 5px;
-    color: #fff;
-}
+    &__header {
+        @include common.lineBox($headerIconSize * 1px);
+        display: flex;
+        flex-basis: 0;
+        align-items: center;
+        padding: 10px;
+        background-color: $headerBgColor;
+        border-radius: 5px;
+        color: $headerIconFontColor;
 
-.appContainer__header_icon {
-    border: 2px solid #fff;
-    border-radius: 10px;
-    width: 48px;
-    height: 48px;
-    text-align: center;
-}
+        &_icon {
+            border: 2px solid $headerIconFontColor;
+            border-radius: 10px;
+            width: $headerIconSize * 1px;
+            height: $headerIconSize * 1px;
+            text-align: center;
 
-.appContainer__header_icon::after {
-    content: 'Do';
-    font-style: normal;
-    font-size: 30px;
-    line-height: 48px;
+            &::after {
+                content: 'Do';
+                display: block;
+                @include common.lineBox($headerIconSize * 1px);
+                font-style: normal;
+                font-size: 30px;
+            }
+        }
+    }
 }
 
 .header__content {

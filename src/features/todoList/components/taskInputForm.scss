@@ -1,4 +1,4 @@
-@use 'common';
+@use '../../../common';
 @use 'sass:color';
 
 $titleHeight:36;
@@ -19,7 +19,7 @@ $_buttonBorderRadius: $buttonWidth * 0.08;
 
     &__taskTitle {
         @include common.flex;
-        @include common.lineBox($titleHeight);
+        @include common.lineBox($titleHeight * 1px);
         margin-bottom: 10px;
 
         .taskTitleInput {
@@ -34,7 +34,7 @@ $_buttonBorderRadius: $buttonWidth * 0.08;
 
         .taskContentInput {
             @include common.flex(1, 1);
-            @include common.lineBox($contentHeight * $contentLineNumber, $contentHeight);
+            @include common.lineBox($contentHeight * $contentLineNumber * 1px, $contentHeight * 1px);
         }
     }
 
@@ -51,32 +51,16 @@ $_buttonBorderRadius: $buttonWidth * 0.08;
 
 
 .taskInputFormBtn {
-    @include common.flex($flex-basis:auto, $justify-content:center, $align-items:center);
+    @include common.button(
+        $buttonWidth * 1px,
+        $buttonHeight * 1px,
+        '',
+        $buttonFontColor,
+        $buttonBgColor
+    );
+    margin-bottom: 10px;
     align-self: flex-end;
-    outline: none;
-    border-style: none;
-
-    width: $buttonWidth * 1px;
-    height: $buttonHeight * 1px;
-    font-size: $buttonFontSize * 1px;
-    border-radius: $_buttonBorderRadius * 1px;
-    color: $buttonFontColor;
-
-    background-color: $buttonBgColor;
-
-    &:hover {
-        background-color: color.adjust($buttonBgColor, $red:20, $green:20, $blue:20);
-    }
-
-    &:active {
-        background-color: $buttonBgColor;
-    }
-
-    &[disabled] {
-        background-color: $buttonBgColor;
-        opacity: 0.5;
-    }
-
+    
     &--new::after {
         content: '添加';
     }

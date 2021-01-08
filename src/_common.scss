@@ -1,0 +1,93 @@
+@use 'sass:color';
+@use 'sass:string';
+
+@mixin flex(
+    $flex-grow:0, 
+    $flex-shrink:0, 
+    $flex-basis:0, 
+    $flex-direction: row,
+    $justify-content:flex-start,
+    $align-items: stretch
+) {
+    display : flex;
+    flex-grow: $flex-grow;
+    flex-shrink: $flex-shrink;
+    flex-basis: $flex-basis;
+    flex-direction: $flex-direction;
+    justify-content: $justify-content;
+    align-items: $align-items;
+}
+
+@mixin lineBox(
+    $height,
+    $line-height: $height,
+    $font-size: ($line-height - 6px),
+) {
+    height: $height;
+    line-height: $line-height;
+    font-size: $font-size;
+}
+
+@mixin button(
+    $width,
+    $height,
+    $content,
+    $fontColor,
+    $bgColor
+) {
+    @include flex($flex-basis:auto, $justify-content:center, $align-items:center);
+    @include lineBox($height, $height, $height * 0.8);
+    width: $width;
+    outline: none;
+    border-style: none;
+    border-radius: 0.1 * $height;
+    color: $fontColor;
+    background-color: $bgColor;
+    font-size: 0.4 * $height;
+    cursor: pointer;
+    &:hover {
+        background-color: color.adjust($bgColor, $red:20, $green:20, $blue:20);
+    }
+    &:active {
+        background-color: $bgColor;
+    }
+
+    &[disabled] {
+        background-color: $bgColor;
+        opacity: 0.5;
+        cursor: default;
+    }
+    &::after {
+        content: string.quote($content);
+    }
+}
+
+
+@mixin icon_calendar (
+    $size,
+    $color : inherit
+) {
+    display: flex;
+    box-sizing: border-box;
+    position: relative;
+    transform: scale(var(--ggs,1));
+    width: $size;
+    height: $size;
+    border: 2px solid;
+    border-top: 4px solid;
+    border-radius: 3px;
+    color:$color;
+
+    &::before {
+        content: "";
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+        background: currentColor;
+        height: 4px;
+        width: 4px;
+        border-radius: 2px;
+        right: 2px;
+        bottom: 2px
+    }
+}

@@ -1,162 +1,134 @@
+@use '../../../common';
+@use 'sass:color';
+
+$todoTaskFontColor : #6c757d;
+$actionButtonWidth : 100;
+$titleHeight : 28;
+$timeHeight  : 18;
+$contentHeight : 23;
+$statusColorOfNew  : #2ae0c8;
+$statusColorOfDone : #e3c887;
+$statusColorOfExpired : #6c757d;
+
+
 .todoTask{
     display: flex;
-    color : #6c757d;
-    border-bottom: 1px solid #6c757d;
-}
+    color : $todoTaskFontColor;
+    border-bottom: 1px solid $todoTaskFontColor;
 
-.todoTask > .todoTask__status {
-    display: flex;
-    flex-grow: 0;
-    flex-shrink: 0;
-    align-self: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-}
+    &>.todoTask__status {
+        @include common.flex($flex-basis:auto);
+        align-self: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
 
-.todoTask__status.todoTask__status--new {
-    background-color: #2ae0c8;
-}
+        &--new {
+            background-color: $statusColorOfNew;
+        }
 
-.todoTask__status.todoTask__status--done {
-    background-color: #e3c887;
-}
+        &--done {
+            background-color: $statusColorOfDone;
+        }
 
-.todoTask__status.todoTask__status--expired {
-    background-attachment: #6c757d;
-}
+        &--expired {
+            background-color: $statusColorOfExpired;
+        }
+    }
 
-.todoTask > .todoTask__main {
-    padding : 16px;
-    flex-grow: 1;
-}
+    &__main {
+        padding : 16px;
+        flex-grow: 1;
+        cursor: pointer;
+    }
 
-.todoTask__title {
-    height: 25px;
-    line-height: 25px;
-    color: #665577;
-    font-size: 1.2em;
-}
+    &__title {
+        @include common.lineBox($titleHeight * 1px);
+        color: color.adjust($todoTaskFontColor, $red:-30, $green:-30, $blue:-30);
+    }
 
-.todoTask__startTime, .todoTask__endTime {
-    height: 25px;
-    line-height: 25px;
-    font-size: 0.8em;
-    display: flex;
-    align-items: center;
-}
+    &__startTime {
+        @include common.lineBox($timeHeight * 1px);
+        display: flex;
+        align-items: center;
 
-.startTime__content::before {
-    content : 'From';
-    padding-right: 1em;
-}
-.todoTask__endTime::before{
-    content: 'To';
-    padding-right: 1em;
-}
+        @at-root .startTime__content {
+            &::before {
+                content : 'From';
+                padding-right: 1em;
+            }
+        }
+    }
 
-.todoTask__content {
-    padding-left: 1em;
+    &__endTime {
+        @include common.lineBox($timeHeight * 1px);
+        display: flex;
+        align-items: center;
+
+        @at-root .todoTask__endTime {
+            &::before {
+                content: 'To';
+                padding-right: 1em;
+            }
+        }
+    }
+
+    &__content {
+        @include common.lineBox(auto, $contentHeight * 1px)
+    }
+
+    &__action {
+        @include common.flex($flex-basis:auto, $flex-direction:column, $justify-content: center);
+        width: $actionButtonWidth * 1px;
+
+        &__btn {
+            margin-bottom: 10px;
+
+            &--done {
+                @include common.button(
+                    100%,
+                    35px,
+                    '标记为已完成',
+                    inherit,
+                    #e3c887
+                );
+            }
+
+            &--delete {
+                @include common.button(
+                    100%,
+                    35px,
+                    '删除',
+                    inherit,
+                    #fe6673
+                );
+            }
+
+            &--new {
+                @include common.button(
+                    100%,
+                    35px,
+                    '标记为未完成',
+                    inherit,
+                    #2ae0c8
+                );
+            }
+        }
+    }
 }
 
 .startTime--today {
     display: flex;
     margin-left: 10px;
-    height: 25px;
+    height: $timeHeight * 1px;
     color : #2ae0c8;
-}
 
-.startTime--today::after {
-    content: 'Today';
-    display: block;
-}
+    &::after {
+        display: block;
+        content: 'Today';
+    }
 
-.icon__today {
-    box-sizing: border-box;
-    position: relative;
-    display: flex;
-    transform: scale(var(--ggs,1));
-    width: 18px;
-    height: 18px;
-    border: 2px solid;
-    border-top: 4px solid;
-    border-radius: 3px
-}
-.icon__today::before {
-    content: "";
-    display: block;
-    box-sizing: border-box;
-    position: absolute;
-    background: currentColor;
-    height: 4px;
-    width: 4px;
-    border-radius: 2px;
-    right: 2px;
-    bottom: 2px
-}
-
-.todoTask__action {
-    display: flex;
-    width: 100px;
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.todoTask__action__btn {
-    display: flex;
-    width: 100%;
-    height: 35px;
-    flex-grow: 0;
-    flex-shrink: 0;
-    border-radius: 5px;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.todoTask__action__btn--done {
-    background-color: #fad8be;
-}
-
-.todoTask__action__btn--done::after {
-    content: '标记为已完成';
-}
-
-.todoTask__action__btn--done:hover {
-    background-color: #e3c887;
-}
-
-
-.todoTask__action__btn--delete {
-    background-color: #fbb8ac;
-}
-
-.todoTask__action__btn--delete::after {
-    content: '删除';
-}
-
-.todoTask__action__btn--delete:hover{
-    background-color: #fe6673;
-}
-
-.todoTask__action__btn--new {
-    background-color: #a2e1d4;
-}
-
-.todoTask__action__btn--new:hover {
-    background-color: #2ae0c8;
-}
-
-.todoTask__action__btn--new::after {
-    content: '标记为未完成'
-}
-
-.todoTask__action__btn {
-    cursor: pointer;
-}
-
-.todoTask__main:hover {
-    cursor: pointer;
+    &>.icon__today {
+        @include common.icon_calendar($timeHeight * 1px);
+    }
 }
